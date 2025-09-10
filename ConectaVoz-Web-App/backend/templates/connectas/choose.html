@@ -1,0 +1,265 @@
+{% extends 'base/layout.html' %}
+
+{% block title %}Escolher Conecta - Conecta Voz{% endblock %}
+
+{% block content_title %}Escolher Conecta{% endblock %}
+{% block content_subtitle %}Selecione democraticamente quem será seu mediador e representante{% endblock %}
+
+{% block content %}
+<div class="conecta-container">
+    <div class="selection-info">
+        <div class="info-card blue">
+            <div class="card-icon blue">🗳️</div>
+            <div class="card-title">Processo Democrático</div>
+            <div class="card-description">
+                Cada colaborador vota em quem considera mais adequado para ser Conecta da equipe.
+            </div>
+        </div>
+
+        <div class="info-card green">
+            <div class="card-icon green">⏱️</div>
+            <div class="card-title">Mudança a cada 15 dias</div>
+            <div class="card-description">
+                Você pode alterar sua escolha de Conecta apenas a cada 15 dias.
+            </div>
+        </div>
+
+        <div class="info-card yellow">
+            <div class="card-icon yellow">👥</div>
+            <div class="card-title">Mínimo 2 votos</div>
+            <div class="card-description">
+                Um Conecta só é homologado se receber pelo menos 2 votos da equipe.
+            </div>
+        </div>
+    </div>
+
+    <div class="current-selection">
+        <h3>Sua Escolha Atual</h3>
+        <div class="current-conecta">
+            <div class="conecta-avatar">JD</div>
+            <div class="conecta-info">
+                <div class="conecta-name">João da Silva</div>
+                <div class="conecta-status">Conecta ativo • Escolhido há 3 dias</div>
+                <div class="next-change">Próxima mudança disponível em: 12 dias</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="available-conectas">
+        <h3>Conectas Disponíveis</h3>
+        <div class="loading-text">Carregando conectas disponíveis...</div>
+        <div id="conectas-list" style="display: none;"></div>
+    </div>
+</div>
+
+<style>
+    .conecta-container {
+        max-width: 900px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .selection-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+    }
+
+    .current-selection,
+    .available-conectas {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .current-selection h3,
+    .available-conectas h3 {
+        margin-bottom: 20px;
+        color: #333;
+        font-size: 20px;
+    }
+
+    .current-conecta {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        background: #05c0cc20;
+        border-radius: 15px;
+        border-left: 4px solid #05c0cc;
+    }
+
+    .conecta-avatar {
+        width: 60px;
+        height: 60px;
+        background: #05c0cc;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: bold;
+        margin-right: 20px;
+    }
+
+    .conecta-name {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .conecta-status {
+        color: #05c0cc;
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+
+    .next-change {
+        color: #666;
+        font-size: 14px;
+    }
+
+    .conectas-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+    }
+
+    .conecta-card {
+        padding: 25px;
+        border: 2px solid #e5e5e5;
+        border-radius: 15px;
+        text-align: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .conecta-card:hover {
+        border-color: #05c0cc;
+        transform: translateY(-2px);
+    }
+
+    .conecta-card.selected {
+        border-color: #05c0cc;
+        background: #05c0cc10;
+    }
+
+    .conecta-card.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .conecta-card .conecta-avatar {
+        margin: 0 auto 15px;
+    }
+
+    .conecta-votes {
+        background: #f8f9fa;
+        padding: 10px 15px;
+        border-radius: 20px;
+        font-size: 14px;
+        color: #666;
+        margin-top: 15px;
+    }
+
+    .vote-button {
+        width: 100%;
+        background: #05c0cc;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .vote-button:hover:not(:disabled) {
+        background: #048a94;
+    }
+
+    .vote-button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+    }
+
+    .change-warning {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        color: #856404;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    @media (max-width: 768px) {
+        .current-conecta {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .conecta-avatar {
+            margin-bottom: 15px;
+        }
+    }
+</style>
+
+<script>
+    // Simular carregamento
+    setTimeout(() => {
+        document.querySelector('.loading-text').style.display = 'none';
+        document.getElementById('conectas-list').style.display = 'block';
+        loadAvailableConectas();
+    }, 1000);
+
+    function loadAvailableConectas() {
+        const container = document.getElementById('conectas-list');
+        
+        // Adicionar aviso sobre mudança
+        const warning = document.createElement('div');
+        warning.className = 'change-warning';
+        warning.innerHTML = '⚠️ Você só poderá alterar sua escolha novamente em 12 dias';
+        container.appendChild(warning);
+
+        const conectasList = [
+            { name: 'Maria Santos', initials: 'MS', votes: 3, canVote: false, current: false },
+            { name: 'Pedro Oliveira', initials: 'PO', votes: 1, canVote: false, current: false },
+            { name: 'Ana Costa', initials: 'AC', votes: 2, canVote: false, current: false },
+            { name: 'João da Silva', initials: 'JD', votes: 4, canVote: false, current: true },
+        ];
+
+        const grid = document.createElement('div');
+        grid.className = 'conectas-grid';
+
+        conectasList.forEach(conecta => {
+            const card = document.createElement('div');
+            card.className = `conecta-card ${conecta.current ? 'selected' : ''} ${!conecta.canVote ? 'disabled' : ''}`;
+            
+            card.innerHTML = `
+                <div class="conecta-avatar">${conecta.initials}</div>
+                <div class="conecta-name">${conecta.name}</div>
+                <div class="conecta-votes">${conecta.votes} voto${conecta.votes !== 1 ? 's' : ''}</div>
+                <button class="vote-button" ${!conecta.canVote ? 'disabled' : ''} onclick="voteForConecta('${conecta.name}')">
+                    ${conecta.current ? 'Escolha Atual' : 'Votar'}
+                </button>
+            `;
+
+            grid.appendChild(card);
+        });
+
+        container.appendChild(grid);
+    }
+
+    function voteForConecta(name) {
+        if (confirm(`Confirma a escolha de ${name} como seu Conecta?`)) {
+            alert(`Voto registrado para ${name}!\nLembre-se: você só poderá alterar sua escolha novamente em 15 dias.`);
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,147 @@
+/* Login.module.css */
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #05c0cc 0%, #048a94 100%);
+  padding: 1rem;
+}
+
+.loginCard {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.logo {
+  height: 60px;
+  width: auto;
+  margin-bottom: 1rem;
+}
+
+.header h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 0.5rem 0;
+}
+
+.header p {
+  color: #6b7280;
+  margin: 0;
+}
+
+
+
+.field {
+  margin-bottom: 1rem;
+}
+
+.field label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+
+.field input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: #05c0cc;
+  box-shadow: 0 0 0 3px rgba(5, 192, 204, 0.1);
+}
+
+.submitButton {
+  width: 100%;
+  background-color: #05c0cc;
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 1rem;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #048a94;
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 0.75rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.footer {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.footer p {
+  margin: 0 0 0.5rem 0;
+  font-weight: 500;
+}
+
+.footer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer li {
+  margin-bottom: 0.25rem;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  .container {
+    padding: 0.5rem;
+  }
+  
+  .loginCard {
+    padding: 1.5rem;
+  }
+  
+  .logo {
+    height: 50px;
+  }
+  
+  .header h1 {
+    font-size: 1.25rem;
+  }
+}

@@ -1,0 +1,251 @@
+{% extends 'base/layout.html' %}
+
+{% block title %}Falar com Conecta - Conecta Voz{% endblock %}
+
+{% block content_title %}Falar com Conecta{% endblock %}
+{% block content_subtitle %}Converse com seu Conecta sobre qualquer assunto. Escolha entre comunicação identificada ou anônima conforme sua necessidade.{% endblock %}
+
+{% block content %}
+<div class="voice-container">
+    <div class="voice-form">
+        <h3 class="form-title">Nova Conversa</h3>
+        
+        <div class="privacy-selector">
+            <h4>Nível de Privacidade</h4>
+            <div class="privacy-options">
+                <label class="privacy-option">
+                    <input type="radio" name="privacy" value="identified" checked>
+                    <div class="option-card">
+                        <div class="option-icon">👤</div>
+                        <div class="option-title">Identificado</div>
+                        <div class="option-desc">Seu Conecta saberá quem você é</div>
+                    </div>
+                </label>
+                
+                <label class="privacy-option">
+                    <input type="radio" name="privacy" value="anonymous">
+                    <div class="option-card">
+                        <div class="option-icon">🕶️</div>
+                        <div class="option-title">Anônimo</div>
+                        <div class="option-desc">Seu Conecta não saberá sua identidade</div>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <div class="message-section">
+            <label for="message">Sua Mensagem</label>
+            <textarea id="message" placeholder="Digite aqui o que você gostaria de conversar com seu Conecta..."></textarea>
+        </div>
+
+        <div class="options-section">
+            <label class="checkbox-option">
+                <input type="checkbox" id="want-response">
+                <span>Gostaria de um retorno (chat cego)</span>
+            </label>
+        </div>
+
+        <button class="send-button" onclick="sendMessage()">Enviar Mensagem</button>
+    </div>
+
+    <div class="info-sidebar">
+        <div class="info-card green">
+            <div class="card-icon green">🛡️</div>
+            <div class="card-title">Totalmente Seguro</div>
+            <div class="card-description">
+                Todas as conversas são criptografadas e seguem protocolos de privacidade rigorosos.
+            </div>
+        </div>
+
+        <div class="info-card blue">
+            <div class="card-icon blue">👥</div>
+            <div class="card-title">Seu Conecta</div>
+            <div class="card-description">
+                Um colega eleito democraticamente pela equipe para mediar e representar vocês.
+            </div>
+        </div>
+
+        <div class="info-card yellow">
+            <div class="card-icon yellow">💬</div>
+            <div class="card-title">Chat Cego</div>
+            <div class="card-description">
+                Se solicitar retorno, vocês poderão conversar sem exposição de identidade.
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .voice-container {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .voice-form {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-title {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 30px;
+        color: #333;
+    }
+
+    .privacy-selector {
+        margin-bottom: 30px;
+    }
+
+    .privacy-selector h4 {
+        margin-bottom: 20px;
+        color: #333;
+        font-size: 18px;
+    }
+
+    .privacy-options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .privacy-option {
+        cursor: pointer;
+    }
+
+    .privacy-option input {
+        display: none;
+    }
+
+    .option-card {
+        padding: 20px;
+        border: 2px solid #e5e5e5;
+        border-radius: 15px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .privacy-option input:checked + .option-card {
+        border-color: #05c0cc;
+        background: #05c0cc10;
+    }
+
+    .option-card:hover {
+        border-color: #05c0cc;
+    }
+
+    .option-icon {
+        font-size: 32px;
+        margin-bottom: 10px;
+    }
+
+    .option-title {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #333;
+    }
+
+    .option-desc {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .message-section {
+        margin-bottom: 30px;
+    }
+
+    .message-section label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .message-section textarea {
+        width: 100%;
+        min-height: 150px;
+        padding: 15px;
+        border: 2px solid #e5e5e5;
+        border-radius: 10px;
+        font-size: 16px;
+        resize: vertical;
+        font-family: inherit;
+    }
+
+    .message-section textarea:focus {
+        outline: none;
+        border-color: #05c0cc;
+    }
+
+    .options-section {
+        margin-bottom: 30px;
+    }
+
+    .checkbox-option {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .checkbox-option input {
+        margin-right: 10px;
+        scale: 1.2;
+    }
+
+    .send-button {
+        width: 100%;
+        background: #05c0cc;
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .send-button:hover {
+        background: #048a94;
+        transform: translateY(-2px);
+    }
+
+    .info-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .voice-container {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<script>
+    function sendMessage() {
+        const privacy = document.querySelector('input[name="privacy"]:checked').value;
+        const message = document.getElementById('message').value;
+        const wantResponse = document.getElementById('want-response').checked;
+
+        if (!message.trim()) {
+            alert('Por favor, digite uma mensagem');
+            return;
+        }
+
+        // Aqui faria a chamada para a API
+        alert(`Mensagem enviada!\nPrivacidade: ${privacy}\nResponder: ${wantResponse ? 'Sim' : 'Não'}`);
+        
+        // Limpar formulário
+        document.getElementById('message').value = '';
+        document.getElementById('want-response').checked = false;
+    }
+</script>
+{% endblock %}

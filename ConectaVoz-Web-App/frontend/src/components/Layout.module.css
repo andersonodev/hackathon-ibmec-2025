@@ -1,0 +1,48 @@
+/* Layout.module.css */
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8fafc;
+}
+
+.main {
+  flex: 1;
+  margin-left: 240px; /* Largura da sidebar expandida */
+  transition: margin-left 0.3s ease;
+  overflow-x: hidden;
+}
+
+/* Quando a sidebar está colapsada, usar o CSS selector correto */
+.main.collapsed {
+  margin-left: 72px;
+}
+
+.content {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .main {
+    margin-left: 72px;
+  }
+  
+  .main.collapsed {
+    margin-left: 0;
+  }
+  
+  .content {
+    padding: 1rem;
+  }
+}
+
+/* Ajustes para animações suaves */
+@media (prefers-reduced-motion: reduce) {
+  .main {
+    transition: none;
+  }
+}

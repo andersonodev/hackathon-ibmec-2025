@@ -1,0 +1,104 @@
+{% extends 'base/layout.html' %}
+
+{% block title %}Dashboard - Conecta Voz{% endblock %}
+
+{% block content_title %}Bem-vindo ao Conecta Voz{% endblock %}
+{% block content_subtitle %}Escolha uma opção no menu lateral para começar{% endblock %}
+
+{% block content %}
+<div class="cards-grid">
+    <div class="info-card blue">
+        <div class="card-icon blue">🏠</div>
+        <div class="card-title">Check-in Diário</div>
+        <div class="card-description">
+            Registre como você está se sentindo hoje. Seu bem-estar importa e seus dados ajudam 
+            a melhorar o ambiente para todos.
+        </div>
+    </div>
+
+    <div class="info-card green">
+        <div class="card-icon green">✉️</div>
+        <div class="card-title">Falar com Conecta</div>
+        <div class="card-description">
+            Converse com seu Conecta sobre qualquer assunto. Escolha entre comunicação 
+            identificada ou anônima conforme sua necessidade.
+        </div>
+    </div>
+
+    <div class="info-card yellow">
+        <div class="card-icon yellow">💬</div>
+        <div class="card-title">Mural da Equipe</div>
+        <div class="card-description">
+            Acompanhe o clima da equipe no mural e fortaleça o coletivo. Compartilhe momentos 
+            e interaja com a equipe.
+        </div>
+    </div>
+
+    <div class="info-card purple">
+        <div class="card-icon purple">👥</div>
+        <div class="card-title">Escolher Conecta</div>
+        <div class="card-description">
+            Selecione democraticamente quem será seu mediador e representante. 
+            Mudanças podem ser feitas a cada 15 dias.
+        </div>
+    </div>
+</div>
+
+<style>
+    .welcome-section {
+        text-align: center;
+        padding: 60px 20px;
+        background: linear-gradient(135deg, #05c0cc20, #05c0cc10);
+        border-radius: 20px;
+        margin-bottom: 40px;
+    }
+
+    .welcome-title {
+        font-size: 36px;
+        font-weight: 700;
+        color: #05c0cc;
+        margin-bottom: 15px;
+    }
+
+    .welcome-subtitle {
+        font-size: 18px;
+        color: #666;
+        margin-bottom: 30px;
+    }
+
+    .quick-actions {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .quick-action {
+        padding: 12px 24px;
+        background: #05c0cc;
+        color: white;
+        text-decoration: none;
+        border-radius: 10px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .quick-action:hover {
+        background: #048a94;
+        transform: translateY(-2px);
+        color: white;
+    }
+</style>
+
+<div class="welcome-section">
+    <h2 class="welcome-title">Olá, {{ user.get_full_name|default:user.username }}!</h2>
+    <p class="welcome-subtitle">
+        Bem-vindo à plataforma Conecta Voz. Use o menu lateral para navegar pelas funcionalidades.
+    </p>
+    <div class="quick-actions">
+        <a href="{% url 'checkin' %}" class="quick-action">Fazer Check-in</a>
+        <a href="{% url 'voice' %}" class="quick-action">Conversar</a>
+        <a href="{% url 'mural' %}" class="quick-action">Ver Mural</a>
+    </div>
+</div>
+{% endblock %}

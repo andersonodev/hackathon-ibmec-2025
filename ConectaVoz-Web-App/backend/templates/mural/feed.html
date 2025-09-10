@@ -1,0 +1,314 @@
+{% extends 'base/layout.html' %}
+
+{% block title %}Mural da Equipe - Conecta Voz{% endblock %}
+
+{% block content_title %}Mural da Equipe{% endblock %}
+{% block content_subtitle %}Acompanhe o clima da equipe no mural e fortaleça o coletivo{% endblock %}
+
+{% block content %}
+<div class="mural-container">
+    <div class="new-post-section">
+        <div class="post-form">
+            <h3>Compartilhe com a equipe</h3>
+            <textarea id="post-content" placeholder="O que você gostaria de compartilhar com a equipe?"></textarea>
+            
+            <div class="post-options">
+                <div class="emoji-selector">
+                    <label>Humor (opcional):</label>
+                    <div class="emoji-buttons">
+                        <button class="emoji-btn" data-emoji="😄">😄</button>
+                        <button class="emoji-btn" data-emoji="😊">😊</button>
+                        <button class="emoji-btn" data-emoji="😐">😐</button>
+                        <button class="emoji-btn" data-emoji="😔">😔</button>
+                        <button class="emoji-btn" data-emoji="😫">😫</button>
+                    </div>
+                </div>
+                
+                <label class="anonymous-option">
+                    <input type="checkbox" id="anonymous-post">
+                    <span>Postar anonimamente</span>
+                </label>
+            </div>
+            
+            <button class="post-button" onclick="createPost()">Publicar</button>
+        </div>
+    </div>
+
+    <div class="posts-feed">
+        <div class="loading-text">Carregando posts...</div>
+        <div id="posts-container" style="display: none;"></div>
+    </div>
+</div>
+
+<style>
+    .mural-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .new-post-section {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+    }
+
+    .post-form h3 {
+        margin-bottom: 20px;
+        color: #333;
+        font-size: 20px;
+    }
+
+    .post-form textarea {
+        width: 100%;
+        min-height: 100px;
+        padding: 15px;
+        border: 2px solid #e5e5e5;
+        border-radius: 10px;
+        font-size: 16px;
+        resize: vertical;
+        font-family: inherit;
+        margin-bottom: 20px;
+    }
+
+    .post-form textarea:focus {
+        outline: none;
+        border-color: #05c0cc;
+    }
+
+    .post-options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .emoji-selector label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .emoji-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .emoji-btn {
+        width: 40px;
+        height: 40px;
+        border: 2px solid #e5e5e5;
+        background: white;
+        border-radius: 50%;
+        font-size: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .emoji-btn:hover,
+    .emoji-btn.selected {
+        border-color: #05c0cc;
+        background: #05c0cc20;
+    }
+
+    .anonymous-option {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    .anonymous-option input {
+        margin-right: 8px;
+        scale: 1.2;
+    }
+
+    .post-button {
+        width: 100%;
+        background: #05c0cc;
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .post-button:hover {
+        background: #048a94;
+        transform: translateY(-2px);
+    }
+
+    .posts-feed {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .post-item {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid #05c0cc;
+    }
+
+    .post-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .post-author {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .post-time {
+        color: #666;
+        font-size: 14px;
+    }
+
+    .post-content {
+        color: #333;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+
+    .post-emoji {
+        font-size: 24px;
+        margin-right: 10px;
+    }
+
+    .post-reactions {
+        display: flex;
+        gap: 15px;
+        padding-top: 15px;
+        border-top: 1px solid #e5e5e5;
+    }
+
+    .reaction-btn {
+        background: none;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        color: #666;
+    }
+
+    .reaction-btn:hover {
+        background: #05c0cc20;
+        color: #05c0cc;
+    }
+
+    @media (max-width: 768px) {
+        .post-options {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+</style>
+
+<script>
+    let selectedEmoji = null;
+
+    // Simular carregamento
+    setTimeout(() => {
+        document.querySelector('.loading-text').style.display = 'none';
+        document.getElementById('posts-container').style.display = 'block';
+        loadSamplePosts();
+    }, 1000);
+
+    // Seleção de emoji
+    document.querySelectorAll('.emoji-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('selected'));
+            this.classList.add('selected');
+            selectedEmoji = this.dataset.emoji;
+        });
+    });
+
+    function createPost() {
+        const content = document.getElementById('post-content').value;
+        const isAnonymous = document.getElementById('anonymous-post').checked;
+
+        if (!content.trim()) {
+            alert('Por favor, digite algum conteúdo para o post');
+            return;
+        }
+
+        // Aqui faria a chamada para a API
+        const newPost = {
+            author: isAnonymous ? 'Anônimo' : 'Você',
+            content: content,
+            emoji: selectedEmoji,
+            time: 'agora'
+        };
+
+        addPostToFeed(newPost);
+
+        // Limpar formulário
+        document.getElementById('post-content').value = '';
+        document.getElementById('anonymous-post').checked = false;
+        document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('selected'));
+        selectedEmoji = null;
+    }
+
+    function loadSamplePosts() {
+        const samplePosts = [
+            {
+                author: 'Ana Silva',
+                content: 'Que dia produtivo! Conseguimos finalizar o projeto antes do prazo. Parabéns a toda equipe! 🎉',
+                emoji: '😄',
+                time: '2 horas atrás'
+            },
+            {
+                author: 'Anônimo',
+                content: 'Alguém mais sentindo que as reuniões estão muito longas ultimamente? Talvez possamos otimizar.',
+                emoji: '😐',
+                time: '5 horas atrás'
+            },
+            {
+                author: 'Carlos Mendes',
+                content: 'Obrigado pelo suporte de vocês no treinamento de hoje. Aprendi muito!',
+                emoji: '😊',
+                time: '1 dia atrás'
+            }
+        ];
+
+        samplePosts.forEach(post => addPostToFeed(post));
+    }
+
+    function addPostToFeed(post) {
+        const container = document.getElementById('posts-container');
+        const postElement = document.createElement('div');
+        postElement.className = 'post-item';
+        
+        postElement.innerHTML = `
+            <div class="post-header">
+                <span class="post-author">${post.author}</span>
+                <span class="post-time">${post.time}</span>
+            </div>
+            <div class="post-content">
+                ${post.emoji ? `<span class="post-emoji">${post.emoji}</span>` : ''}
+                ${post.content}
+            </div>
+            <div class="post-reactions">
+                <button class="reaction-btn">👍 Curtir</button>
+                <button class="reaction-btn">💬 Comentar</button>
+            </div>
+        `;
+
+        container.insertBefore(postElement, container.firstChild);
+    }
+</script>
+{% endblock %}

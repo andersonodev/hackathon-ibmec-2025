@@ -1,0 +1,271 @@
+/* MoodCheckin.module.css */
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 0.5rem 0;
+}
+
+.header p {
+  color: #6b7280;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.form {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin-bottom: 2rem;
+}
+
+.sectionLabel {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 1rem;
+}
+
+.moodSelector {
+  margin-bottom: 2rem;
+}
+
+.moodOptions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.moodOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.moodOption:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.moodOption.selected {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.emoji {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.label {
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.9rem;
+}
+
+.selectedMoodDisplay {
+  background: #f0f9ff;
+  border: 1px solid #0ea5e9;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.selectedMoodDisplay p {
+  margin: 0;
+  color: #0c4a6e;
+}
+
+.commentSection {
+  margin-bottom: 2rem;
+}
+
+.commentInput {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.commentInput:focus {
+  outline: none;
+  border-color: #05c0cc;
+  box-shadow: 0 0 0 3px rgba(5, 192, 204, 0.1);
+}
+
+.charCount {
+  text-align: right;
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.message {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.message.success {
+  background-color: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.message.error {
+  background-color: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.submitButton {
+  width: 100%;
+  background-color: #05c0cc;
+  color: white;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #048a94;
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.alreadyChecked {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.todayCheckin h2 {
+  color: #166534;
+  margin: 0 0 1.5rem 0;
+}
+
+.checkinSummary {
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.moodDisplay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.bigEmoji {
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
+}
+
+.moodLabel {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.comment {
+  text-align: left;
+  margin-top: 1rem;
+}
+
+.comment strong {
+  color: #374151;
+}
+
+.comment p {
+  margin: 0.5rem 0 0 0;
+  font-style: italic;
+  color: #6b7280;
+}
+
+.returnTomorrow {
+  color: #6b7280;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.info {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.info h3 {
+  color: #374151;
+  margin: 0 0 1rem 0;
+}
+
+.info ul {
+  color: #6b7280;
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.info li {
+  margin-bottom: 0.5rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .moodOptions {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.75rem;
+  }
+  
+  .moodOption {
+    padding: 1rem 0.5rem;
+  }
+  
+  .emoji {
+    font-size: 2rem;
+  }
+  
+  .bigEmoji {
+    font-size: 3rem;
+  }
+}
